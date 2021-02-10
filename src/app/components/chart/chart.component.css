@@ -1,0 +1,22 @@
+#divChart {
+    display: block;
+    width: 60vw;
+    height: 30vh;
+}
+.chart-page-filter {
+    display: flex;
+    flex-wrap: wrap;
+}
+.item-filter {
+    flex: 20%;
+}
+.button-row {
+    margin-top: 10px;
+}
+.form-class {
+    flex: 100%;
+    display: flex;
+}
+.item-filter-form {
+    flex: 20%;
+}
