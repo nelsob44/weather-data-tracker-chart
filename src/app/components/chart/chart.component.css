@@ -20,3 +20,20 @@
 .item-filter-form {
     flex: 20%;
 }
+.error-class {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.top-one {
+  margin-top: 2rem;
+  font-weight: bolder;
+  font-size: 3rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.spinner-class {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30%;
+}

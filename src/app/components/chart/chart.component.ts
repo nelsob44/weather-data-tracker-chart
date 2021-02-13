@@ -15,8 +15,10 @@ import { map } from 'rxjs/operators';
 })
 export class ChartComponent implements OnInit {
   private weatherDataSub?: Subscription;
-  private isLoading: boolean = false;
+  isLoading: boolean = false;
   private weatherData?: WeatherData;
+  isFirstRequest = true;
+  showErrorMessage = false;
   metricDefault = 'Tmax';
   locationDefault = 'England';
   dataValues: number[] = [];
@@ -30,15 +32,20 @@ export class ChartComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
     this.weatherDataSub = this.weatherService.fetchResults('Tmin', this.locationDefault, 2010, 1, 12).subscribe(resData => {
+      if(!resData.length) {
+        this.showErrorMessage = true;
+      }
       const newResult: number[] = [];
       resData.forEach((res: WeatherData) => {
         newResult.push(res.value);
       })  
       this.dataValues = newResult;
-
+      this.isLoading = false;
       //assign variables to Chart object from chart.js
       this.processChart('Tmin', this.labels, this.dataValues);
-            
+    }, () => {      
+        this.showErrorMessage = true;   
+        this.isLoading = false;
     });
   }
 
@@ -97,6 +104,9 @@ export class ChartComponent implements OnInit {
 
   //submit form
   onSubmit(form: NgForm) {
+    if(this.showErrorMessage){
+      this.showErrorMessage = false;
+    }
     if (!form.valid) {
       return;
     } else if(form.value.year.isNaN) {
@@ -112,19 +122,30 @@ export class ChartComponent implements OnInit {
 
     this.isLoading = true;
     this.weatherDataSub = this.weatherService.fetchResults(metric, location, year, month1, month2).subscribe(results => {
+      if(!results.length) {
+        this.showErrorMessage = true;
+      }
       const newResult: number[] = [];
       results.forEach((res: WeatherData) => {
         newResult.push(res.value);
       })  
       this.dataValues = newResult;
-
+      this.isFirstRequest = false;
+      this.isLoading = false;
       //assign variables to Chart object from chart.js
       this.processChart(metric, this.labels, this.dataValues);
+      }, () => {      
+        this.showErrorMessage = true;   
+        this.isLoading = false;
     });
+    
   }  
 
   //filter results by month when date value changes
   filterByMonth(form: NgForm) {
+    if(this.isFirstRequest) {
+      return;
+    }
     const year = parseInt(form.value.year);
     const month1 = parseInt(form.value.month1) || 1;
     const month2 = parseInt(form.value.month2) || 12;
@@ -137,8 +158,12 @@ export class ChartComponent implements OnInit {
       alert('Your chosen 1st month should not be greater than your chosen 2nd month');
       return;
     } 
-    
-    this.weatherDataSub = this.weatherService.results.subscribe(() => {
+
+    this.isLoading = true;
+    this.weatherDataSub = this.weatherService.results.subscribe((results) => {
+      if(!results.length) {
+        this.showErrorMessage = true;
+      }
       const newLabels: any = [];
       const newResult: number[] = [];
       this.dataValues.forEach((res: number, index) => {
@@ -146,7 +171,6 @@ export class ChartComponent implements OnInit {
           newLabels.push(index);
         }
       });
-      console.log(newLabels);
 
       const newData: number[] = [];
       this.dataValues.forEach((dat, index) => {
@@ -161,8 +185,12 @@ export class ChartComponent implements OnInit {
           usefulLabels.push(lab);
         }
       })
+      this.isLoading = false;
       //assign variables to Chart object from chart.js
       this.processChart(metric, usefulLabels, newData);
+    }, () => {      
+        this.showErrorMessage = true;   
+        this.isLoading = false;
     });
     
   }

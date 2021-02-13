@@ -1,83 +1,92 @@
-<p>chart works!</p>
-<form #f="ngForm" (ngSubmit)="onSubmit(f)" class="form">
-    <div class="chart-page-filter">
-        <div class="item-filter">
-            <mat-form-field hintLabel="Max 4 characters" appearance="fill">
-                <mat-label>Enter Year (Ex. 1998)</mat-label>
-                <input type="number" matInput ngModel name="year" #yearCtrl="ngModel" maxlength="4" placeholder="Ex. 1999">
-            </mat-form-field>
-        </div>
-        <div class="item-filter">
-            <mat-form-field appearance="fill">
-            <mat-label>Select 1st month</mat-label>
-            <mat-select ngModel name="month1" #month1Ctrl="ngModel" (ngModelChange)="filterByMonth(f)">
-                <mat-option value="1">Jan</mat-option>
-                <mat-option value="2">Feb</mat-option>
-                <mat-option value="3">Mar</mat-option>
-                <mat-option value="4">Apr</mat-option>
-                <mat-option value="5">May</mat-option>
-                <mat-option value="6">Jun</mat-option>
-                <mat-option value="7">Jul</mat-option>
-                <mat-option value="8">Aug</mat-option>
-                <mat-option value="9">Sep</mat-option>
-                <mat-option value="10">Oct</mat-option>
-                <mat-option value="11">Nov</mat-option>
-                <mat-option value="12">Dec</mat-option>
-            </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="item-filter">
-            <mat-form-field appearance="fill">
-            <mat-label>Select 2nd month</mat-label>
-            <mat-select ngModel name="month2" #month2Ctrl="ngModel" (ngModelChange)="filterByMonth(f)">
-                <mat-option value="1">Jan</mat-option>
-                <mat-option value="2">Feb</mat-option>
-                <mat-option value="3">Mar</mat-option>
-                <mat-option value="4">Apr</mat-option>
-                <mat-option value="5">May</mat-option>
-                <mat-option value="6">Jun</mat-option>
-                <mat-option value="7">Jul</mat-option>
-                <mat-option value="8">Aug</mat-option>
-                <mat-option value="9">Sep</mat-option>
-                <mat-option value="10">Oct</mat-option>
-                <mat-option value="11">Nov</mat-option>
-                <mat-option value="12">Dec</mat-option>
-            </mat-select>
-            </mat-form-field>
-        </div>
+<div>
+    <div *ngIf="isLoading" class="spinner-class">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     </div>
+    <div *ngIf="showErrorMessage" class="error-class">
+        <p class="top-one">Sorry, we are unable to retrieve the data requested at this time, please try again with a different year value.</p>
+    </div>
+    <div>
+        <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="form">
+            <div class="chart-page-filter">
+                <div class="item-filter">
+                    <mat-form-field hintLabel="Max 4 characters" appearance="fill">
+                        <mat-label>Enter Year (Ex. 1998)</mat-label>
+                        <input type="number" matInput ngModel name="year" #yearCtrl="ngModel" maxlength="4" placeholder="Ex. 1999">
+                    </mat-form-field>
+                </div>
+                <div class="item-filter">
+                    <mat-form-field appearance="fill">
+                    <mat-label>Select 1st month</mat-label>
+                    <mat-select ngModel name="month1" #month1Ctrl="ngModel" (ngModelChange)="filterByMonth(f)">
+                        <mat-option value="1">Jan</mat-option>
+                        <mat-option value="2">Feb</mat-option>
+                        <mat-option value="3">Mar</mat-option>
+                        <mat-option value="4">Apr</mat-option>
+                        <mat-option value="5">May</mat-option>
+                        <mat-option value="6">Jun</mat-option>
+                        <mat-option value="7">Jul</mat-option>
+                        <mat-option value="8">Aug</mat-option>
+                        <mat-option value="9">Sep</mat-option>
+                        <mat-option value="10">Oct</mat-option>
+                        <mat-option value="11">Nov</mat-option>
+                        <mat-option value="12">Dec</mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="item-filter">
+                    <mat-form-field appearance="fill">
+                    <mat-label>Select 2nd month</mat-label>
+                    <mat-select ngModel name="month2" #month2Ctrl="ngModel" (ngModelChange)="filterByMonth(f)">
+                        <mat-option value="1">Jan</mat-option>
+                        <mat-option value="2">Feb</mat-option>
+                        <mat-option value="3">Mar</mat-option>
+                        <mat-option value="4">Apr</mat-option>
+                        <mat-option value="5">May</mat-option>
+                        <mat-option value="6">Jun</mat-option>
+                        <mat-option value="7">Jul</mat-option>
+                        <mat-option value="8">Aug</mat-option>
+                        <mat-option value="9">Sep</mat-option>
+                        <mat-option value="10">Oct</mat-option>
+                        <mat-option value="11">Nov</mat-option>
+                        <mat-option value="12">Dec</mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
 
-    <div class="chart-page-filter">
-        <div class="item-filter-form">
-            <mat-form-field appearance="fill">
-            <mat-label>Choose metric</mat-label>
-            <mat-select ngModel name="metric" #metricCtrl="ngModel">
-                <mat-option value="Tmax">Max Temperature</mat-option>
-                <mat-option value="Tmin">Min Temperature</mat-option>
-                <mat-option value="Rainfall">Rainfall</mat-option>
-            </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="item-filter-form">
-            <mat-form-field appearance="fill">
-            <mat-label>Choose location</mat-label>
-            <mat-select ngModel name="location" #locationCtrl="ngModel">
-                <mat-option value="England">England</mat-option>
-                <mat-option value="Scotland">Scotland</mat-option>
-                <mat-option value="Wales">Wales</mat-option>
-                <mat-option value="UK">UK</mat-option>
-            </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="item-filter-form">
-            <div class="button-row">
-                <button type="submit" mat-raised-button color="primary">Search</button>
-            </div>                       
+            <div class="chart-page-filter">
+                <div class="item-filter-form">
+                    <mat-form-field appearance="fill">
+                    <mat-label>Choose metric</mat-label>
+                    <mat-select ngModel name="metric" #metricCtrl="ngModel">
+                        <mat-option value="Tmax">Max Temperature</mat-option>
+                        <mat-option value="Tmin">Min Temperature</mat-option>
+                        <mat-option value="Rainfall">Rainfall</mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="item-filter-form">
+                    <mat-form-field appearance="fill">
+                    <mat-label>Choose location</mat-label>
+                    <mat-select ngModel name="location" #locationCtrl="ngModel">
+                        <mat-option value="England">England</mat-option>
+                        <mat-option value="Scotland">Scotland</mat-option>
+                        <mat-option value="Wales">Wales</mat-option>
+                        <mat-option value="UK">UK</mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="item-filter-form">
+                    <div class="button-row">
+                        <button type="submit" mat-raised-button color="primary">Search</button>
+                    </div>                       
+                </div>
+            </div>
+        </form>
+            
+        <div id="divChart">
+            <canvas id="myChart"></canvas>
         </div>
     </div>
-</form>
-    
-<div id="divChart">
-    <canvas id="myChart"></canvas>
 </div>
 
