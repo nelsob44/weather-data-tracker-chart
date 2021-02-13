@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '../../services/weather.service';
 import { Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 import { WeatherData } from '../../models/weather-data';
 import { Chart } from 'chart.js';
 import { NgForm } from '@angular/forms';
