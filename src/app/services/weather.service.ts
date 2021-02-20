@@ -32,6 +32,7 @@ export class WeatherService {
             }
           });
           this._results.next(dataSet);
+          console.log(dataSet);
           return dataSet;
         })
       );

@@ -22,4 +22,9 @@ describe('ToolbarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render title on toolbar', () => {
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('.title').textContent).toContain('My Weather Tracker');
+  });
 });
