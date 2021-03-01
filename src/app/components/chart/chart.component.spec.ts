@@ -68,7 +68,7 @@ describe('ChartComponent', () => {
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
-      expect(component.onSubmit).toHaveBeenCalled();
+      expect(component.onSubmit).toHaveBeenCalled;
     });
   });
 });
